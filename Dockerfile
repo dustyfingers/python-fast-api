@@ -23,4 +23,6 @@ RUN poetry install --no-root
 # FIXME: this process exits immediately
 # poetry run python main.py doesnt seem to work
 # neither does python main.py
+# neither does python ./main.py
+# what gives? the image itself seems to have the correct files in it
 CMD ['python', 'main.py']
