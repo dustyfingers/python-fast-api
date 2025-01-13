@@ -1,1 +1,23 @@
-# TODO: dockerize this application
+# pull base python image
+FROM python:3.9-bookworm
+
+# copy .toml file for poetry dep management from computer to image into created /usr/app/ folder
+COPY pyproject.toml /usr/app/
+
+# copy app files over into image
+COPY main.py /usr/app/
+
+# like cd'ing into the created /usr/app dir within the image
+# the rest of the commands are executed from there
+WORKDIR /usr/app
+
+# install poetry
+RUN pip install poetry
+
+# install dependencies
+RUN poetry install --no-root
+
+# FIXME: this process exits immediately
+# poetry run python main.py doesnt seem to work
+# neither does python main.py
+CMD ['poetry', 'run', 'python', 'main.py']
