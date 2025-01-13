@@ -1,7 +1,7 @@
 # pull base python image
 FROM python:3.9-bookworm
 
-# copy .toml file for poetry dep management from computer to image into created /usr/app/ folder
+# copy .toml file for poetry dep management from local storage to image into created /usr/app/ folder
 COPY pyproject.toml /usr/app/
 
 # copy app files over into image
@@ -14,10 +14,13 @@ WORKDIR /usr/app
 # install poetry
 RUN pip install poetry
 
+# config poetry to not create a virtual env
+RUN poetry config virtualenvs.create false
+
 # install dependencies
 RUN poetry install --no-root
 
 # FIXME: this process exits immediately
 # poetry run python main.py doesnt seem to work
 # neither does python main.py
-CMD ['poetry', 'run', 'python', 'main.py']
+CMD ['python', 'main.py']
